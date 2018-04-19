@@ -4,7 +4,7 @@ var expressMethodOverride = require("express-method-override");
 const orm = require('./config/orm.js')
 
 var app = express();
-var port = 3000 || process.env.PORT;
+var port = process.env.PORT || 3000;
 
 // Parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
