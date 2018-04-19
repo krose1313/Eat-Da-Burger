@@ -1,0 +1,99 @@
+<h1>Eat-Da-Burger</h1>
+
+<ul>
+  {{#each orders}}
+  <li>
+    <p>
+      {{this.id}}. {{this.food_order}}
+
+      <button data-orderid="{{this.id}}" class="delOrder">Devour Burger!</button>
+    </p>
+  </li>
+  {{/each}}
+</ul>
+
+<h2>Order a Burger</h2>
+<form id="createOrder" class="button-size">
+  <textarea type="text" name="order"></textarea>
+  <button type="submit">Place Order!</button>
+</form>
+
+<h2>Update your Order</h2>
+<form id="updateOrder" class="button-size">
+  <select name="id">
+    {{#each orders}}
+      <option value="{{this.id}}">{{this.food_order}}</option>
+    {{/each}}
+  </select>
+  <textarea type="text" name="order" placeholder="order"></textarea>
+  <button type="submit">Update Order!</button>
+</form>
+
+<script type="text/javascript">
+  //On click function for deleting an order
+  $(".delOrder").on("click", function(event) {
+    var id = $(this).data("orderid");
+
+    // Send the DELETE request.
+    $.ajax("/orders/" + id, {
+      type: "DELETE"
+    }).then(
+      function() {
+        console.log("deleted id ", id);
+        // Reload the page to get the updated list
+        location.reload();
+      }
+    );
+  });
+
+  //On click function for creating an order
+  $("#createOrder").on("submit", function(event) {
+    // Make sure to preventDefault on a submit event.
+    event.preventDefault();
+
+    var newOrder = {
+      order: $("#createOrder [name=order]").val().trim()
+    };
+
+    // Send the POST request.
+    $.ajax("/orders", {
+      type: "POST",
+      data: newOrder
+    }).then(
+      function() {
+        console.log("created new order");
+        // Reload the page to get the updated list
+        location.reload();
+      }
+    );
+  });
+
+  //On click function for updatin an order
+  $("#updateOrder").on("submit", function(event) {
+   console.log("update order button clicked")
+  
+    // Make sure to preventDefault on a submit event.
+    event.preventDefault();
+
+    // This allows us to know which existing order we are updating
+    var id = $("[name=id]").val().trim();
+   
+    // This allows us to create a relationship between the new order mods and the already existing order 
+    var updatedOrder = {
+      order: $("#updateOrder [name=order]").val().trim()
+    };
+    console.log("updated order becomes the new order lingo")
+
+    // Send the PUT request.
+    $.ajax("/food_order/" + id, {
+      type: "PUT",
+      data: updatedOrder
+    }).then(
+      function() {
+        console.log("updated id ", id);
+        // Reload the page to get the updated list
+        location.reload();
+      }
+    );
+  });
+</script>
