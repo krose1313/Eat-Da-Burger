@@ -4,10 +4,11 @@ var app = express();
 app.use(express.logger());
 
 const connection = mysql.createConnection({
-  host: "us-cdbr-iron-east-05.cleardb.net",
-  user: "b8f91155f39e12",
-  password: "cf74bf8c",
-  database: "heroku_9959dc4e30eb620"
+  host: "fugfonv8odxxolj8.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
+  user: "uzk8rmdadugbdjtp",
+  password: "olqz8jiqdlba3ghg",
+  port: "3306",
+  database: "hjp1s80ha0ae6qyi"
 });
 
 connection.connect(function(err) {
